@@ -2,11 +2,10 @@ from abc import ABC, abstractmethod
 
 class Figure(ABC):
     _pool = {}
-    _instance = None
 
     @abstractmethod
-    def __init__(self, sides) -> None:
-        self.__sides = sides
+    def __init__(self, sides: list[int|float]) -> None:
+        self.sides = sides
 
     @property
     def sides(self):
@@ -14,9 +13,17 @@ class Figure(ABC):
     
     @sides.setter
     def sides(self, new_value):
-        
-        if not isinstance(new_value, list[int|float]):
+        print(new_value)
+        if not isinstance(new_value, list):
             raise TypeError('The type must be <list[int]>')
+        
+        for value in new_value:
+            if not isinstance(value, int|float):
+                print(type(value))
+                raise TypeError('The type must be <int>')
+        
+        if len(new_value) == 0:
+            raise ValueError("SIze == 0")
 
         self.__sides = new_value
 
@@ -50,6 +57,3 @@ class Square(Figure):
         return self.sides[0]  ** 2
     
 
-sq = Square([12,12,12,12])
-sq2 = Square([12,12,12,12])
-print(sq, sq2)
